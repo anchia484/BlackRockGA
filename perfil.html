@@ -603,7 +603,7 @@
         }
 
         /* ===== PARTILHA E REDES SOCIAIS ===== */
-        function gerarLink() { return `https://black-rock-gest-o-de-ativos.vercel.app/registro.html?convite=${dadosUsuario ? dadosUsuario.meuCodigoConvite : 'BR0000'}`; }
+        function gerarLink() { return 'https://black-rock-ga.vercel.app/registro.html?convite=${dadosUsuario ? dadosUsuario.meuCodigoConvite : 'BR0000'}`; }
         function copiarConvite(event) {
             if(event) event.stopPropagation();
             const link = gerarLink();
