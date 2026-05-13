@@ -23,74 +23,82 @@
             --btn-disabled-bg: #1E293B;
         }
 
-        /* ==================== RESET E TIPOGRAFIA ==================== */
+        /* ==================== RESET SEGURO ANTI-GLITCH ==================== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg-canvas); color: var(--texto-high); min-height: 100vh; padding-top: 70px; padding-bottom: 90px; overflow-x: hidden; }
         
-        /* ==================== CABEÇALHO GLOBAL (OTIMIZADO GPU) ==================== */
+        html, body { max-width: 100vw; overflow-x: hidden; } /* Evita o bug de rolagem do Chrome Mobile */
+        
+        body { background: var(--bg-canvas); color: var(--texto-high); min-height: 100vh; padding-top: 70px; padding-bottom: 90px; }
+        
+        /* ==================== CABEÇALHO GLOBAL (FLAT) ==================== */
         .header-fixed { 
             position: fixed; top: 0; left: 0; width: 100%; 
-            background: #0A0C12; /* Blur removido para evitar glitch no Chrome Android */
-            border-bottom: 1px solid var(--borda-nitida); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 12px 0; 
-            transform: translateZ(0); will-change: transform;
+            background: #0A0C12; border-bottom: 1px solid var(--borda-nitida); 
+            display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 12px 0; 
         }
         .header-fixed h1 { display: flex; flex-direction: column; align-items: center; font-size: 18px; font-weight: 900; letter-spacing: 1px; background: var(--gradiente-cta); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
         .header-fixed h1 .sub-logo { font-size: 9px; font-weight: 800; color: var(--texto-med); letter-spacing: 3px; -webkit-text-fill-color: var(--texto-med); margin-top: 2px; }
         
         /* ==================== CONTEÚDO PRINCIPAL ==================== */
-        .main-content { padding: 20px; display: flex; flex-direction: column; gap: 25px; max-width: 600px; margin: 0 auto; transform: translateZ(0); }
+        .main-content { padding: 20px; display: flex; flex-direction: column; gap: 25px; max-width: 600px; margin: 0 auto; contain: content; }
         
         /* =========================================
-           🛡️ IDENTIDADE VISUAL BLACKROCK (SOMBRAS REDUZIDAS)
+           🛡️ IDENTIDADE VISUAL FIXA & ANTI-GLITCH GPU
         ========================================= */
-        .profile-header { display: flex; flex-direction: column; align-items: center; background: var(--bg-card); border: 1px solid var(--borda-nitida); border-radius: 20px; padding: 35px 20px 25px; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .profile-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradiente-cta); border-top-left-radius: 20px; border-top-right-radius: 20px; }
+        .profile-header { 
+            display: flex; flex-direction: column; align-items: center; 
+            background: var(--bg-card); 
+            border: 1px solid var(--borda-nitida); 
+            border-top: 5px solid var(--magenta);
+            border-radius: 20px; 
+            padding: 35px 20px 25px; 
+            
+            /* CÓDIGO MÁGICO QUE IMPEDE A TELA PRETA NO ANDROID */
+            isolation: isolate;
+            -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            contain: layout paint;
+        }
         
-        .avatar-wrapper { position: relative; margin-bottom: 15px; }
+        .avatar-wrapper { margin-bottom: 15px; }
 
         .br-institutional-icon {
-            width: 75px;
-            height: 75px;
-            border-radius: 22px;
-            background: linear-gradient(135deg, rgba(236,26,124,0.1), rgba(78,63,234,0.1));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            width: 75px; height: 75px; border-radius: 22px;
+            background: #1A202C; 
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid var(--borda-nitida);
             color: var(--cyan-neon);
-            font-size: 32px;
-            font-weight: 900;
-            text-transform: uppercase;
         }
 
         .p-name { font-size: 22px; font-weight: 900; margin-bottom: 5px; text-align: center; color: #FFF; }
         .p-id { font-size: 13px; color: var(--texto-med); margin-bottom: 15px; letter-spacing: 1px; }
         .p-status { padding: 6px 16px; border-radius: 30px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 6px; background: rgba(56,224,144,0.1); border: 1px solid rgba(56,224,144,0.3); color: var(--verde-menta); letter-spacing: 0.5px; }
         
-        /* BOTÕES DE AÇÃO FINANCEIRA */
+        /* BOTÕES DE AÇÃO FINANCEIRA (FLAT) */
         .fin-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .btn-fin { background: var(--bg-card); border: 1px solid var(--borda-nitida); padding: 18px 5px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: 0.2s; }
-        .btn-fin:active { transform: scale(0.96); }
-        .btn-fin.deposito { border-color: rgba(56,224,144,0.3); background: linear-gradient(180deg, rgba(56,224,144,0.05) 0%, var(--bg-card) 100%); }
-        .btn-fin.saque { border-color: rgba(236,26,124,0.3); background: linear-gradient(180deg, rgba(236,26,124,0.05) 0%, var(--bg-card) 100%); }
-        .btn-fin.hist { border-color: rgba(0,255,255,0.3); background: linear-gradient(180deg, rgba(0,255,255,0.05) 0%, var(--bg-card) 100%); }
+        .btn-fin { background: var(--bg-card); border: 1px solid var(--borda-nitida); padding: 18px 5px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s; }
+        .btn-fin:active { transform: scale(0.96); background: #1A202C; }
+        .btn-fin.deposito { border-color: rgba(56,224,144,0.4); }
+        .btn-fin.saque { border-color: rgba(236,26,124,0.4); }
+        .btn-fin.hist { border-color: rgba(0,255,255,0.4); }
         .btn-fin span { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #FFF; letter-spacing: 0.5px; }
         
-        /* RESUMO FINANCEIRO */
-        .fin-summary { display: flex; justify-content: space-between; background: var(--bg-card); border: 1px solid var(--borda-nitida); border-radius: 16px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        /* RESUMO FINANCEIRO (FLAT) */
+        .fin-summary { display: flex; justify-content: space-between; background: var(--bg-card); border: 1px solid var(--borda-nitida); border-radius: 16px; padding: 20px; }
         .fs-item { display: flex; flex-direction: column; gap: 6px; }
         .fs-item span { font-size: 11px; color: var(--texto-med); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
         .fs-item strong { font-size: 16px; font-weight: 900; color: #FFF; }
 
-        /* LISTAS DE MENUS */
-        .menu-section { background: var(--bg-card); border: 1px solid var(--borda-nitida); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        /* LISTAS DE MENUS (FLAT) */
+        .menu-section { background: var(--bg-card); border: 1px solid var(--borda-nitida); border-radius: 16px; overflow: hidden; }
         .menu-title { font-size: 11px; font-weight: 800; color: var(--texto-med); padding: 20px 20px 5px; text-transform: uppercase; letter-spacing: 1px; }
         .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--borda-nitida); cursor: pointer; transition: 0.2s; }
         .menu-item:hover { background: rgba(255,255,255,0.03); }
         .menu-item:last-child { border-bottom: none; }
         .mi-left { display: flex; align-items: center; gap: 15px; flex: 1; }
-        .mi-icon-wrapper { width: 38px; height: 38px; border-radius: 10px; display: flex; justify-content: center; align-items: center; background: var(--input-bg); border: 1px solid rgba(255,255,255,0.05); }
+        .mi-icon-wrapper { width: 38px; height: 38px; border-radius: 10px; display: flex; justify-content: center; align-items: center; background: var(--input-bg); border: 1px solid var(--borda-nitida); }
         .mi-text { display: flex; flex-direction: column; gap: 4px; }
         .mi-title { font-size: 14px; font-weight: 800; color: #FFF; }
         .mi-sub { font-size: 12px; color: var(--texto-med); }
@@ -100,20 +108,18 @@
         .btn-logout { width: 100%; background: rgba(255, 75, 75, 0.05); border: 1px solid rgba(255, 75, 75, 0.3); color: var(--alerta); padding: 18px; border-radius: 16px; font-size: 13px; font-weight: 900; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
         .btn-logout:active { transform: scale(0.98); background: rgba(255, 75, 75, 0.15); }
         
-        /* ==================== NAVBAR INFERIOR (OTIMIZADA) ==================== */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--navbar-bg); border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-around; padding: 12px 0 16px 0; z-index: 1000; transform: translateZ(0); }
+        /* ==================== NAVBAR INFERIOR (FLAT) ==================== */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #0A0C12; border-top: 1px solid var(--borda-nitida); display: flex; justify-content: space-around; padding: 12px 0 16px 0; z-index: 1000; }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--texto-med); text-decoration: none; font-size: 10px; font-weight: 800; text-transform: uppercase; transition: 0.3s; width: 60px; }
         .nav-icon { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: 0.3s; }
-        
         .nav-item.active { color: var(--cyan-neon); }
-        /* Removido o filter: drop-shadow pesado e mantido apenas o transform */
-        .nav-item.active .nav-icon { stroke: var(--cyan-neon); transform: translateY(-2px); }
+        .nav-item.active .nav-icon { stroke: var(--cyan-neon); }
 
         /* ==================== REGRAS DE SAQUE ==================== */
-        .saque-rules-view { display: none; position: fixed; inset: 0; background: var(--bg-canvas); z-index: 2500; overflow-y: auto; padding: 20px; padding-bottom: 100px; transform: translateZ(0); }
+        .saque-rules-view { display: none; position: fixed; inset: 0; background: var(--bg-canvas); z-index: 2500; overflow-y: auto; padding: 20px; padding-bottom: 100px; }
         .sr-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; margin-top: 10px; }
         .sr-header h2 { font-size: 18px; font-weight: 900; color: #FFF; text-transform: uppercase; letter-spacing: 1px; }
-        .sr-card { background: var(--bg-card); border: 1px solid var(--borda-nitida); border-radius: 16px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .sr-card { background: var(--bg-card); border: 1px solid var(--borda-nitida); border-radius: 16px; padding: 25px; margin-bottom: 20px; }
         .sr-card h3 { font-size: 14px; font-weight: 900; color: var(--cyan-neon); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
         .sr-card p, .sr-card ul { font-size: 13px; color: var(--texto-med); line-height: 1.6; }
         .sr-card ul { padding-left: 20px; margin-top: 10px; }
@@ -124,32 +130,30 @@
         .sr-timer { font-size: 24px; font-weight: 900; color: #FFF; margin-top: 5px; letter-spacing: 1px; font-variant-numeric: tabular-nums; }
         
         .btn-go-saque { width: 100%; padding: 20px; border-radius: 14px; font-size: 14px; font-weight: 900; text-transform: uppercase; cursor: pointer; border: none; margin-top: 25px; transition: 0.3s; letter-spacing: 1px; }
-        .btn-go-saque.ativo { background: var(--gradiente-cta); color: #FFF; box-shadow: 0 4px 15px rgba(236,26,124,0.3); }
+        .btn-go-saque.ativo { background: var(--gradiente-cta); color: #FFF; }
         .btn-go-saque.ativo:active { transform: scale(0.96); }
         .btn-go-saque.bloqueado { background: var(--btn-disabled-bg); color: var(--texto-med); cursor: not-allowed; }
 
-        /* ==================== MODAIS FLUTUANTES (OTIMIZADOS GPU) ==================== */
-        /* Removido o backdrop-filter pesado e escurecido o background */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(5, 7, 10, 0.95); z-index: 3000; justify-content: center; align-items: center; padding: 20px; transform: translateZ(0); }
-        .modal-content { background: var(--bg-card); border: 1px solid var(--borda-nitida); width: 100%; max-width: 400px; border-radius: 20px; padding: 30px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        /* ==================== MODAIS FLUTUANTES (FLAT) ==================== */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: #05070A; z-index: 3000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--bg-card); border: 1px solid var(--borda-nitida); width: 100%; max-width: 400px; border-radius: 20px; padding: 30px; position: relative; }
         
         .input-group { margin-bottom: 18px; }
         .input-group label { font-size: 11px; color: var(--texto-med); font-weight: 800; display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .input-group input { width: 100%; padding: 16px; background: var(--input-bg); border: 1px solid var(--borda-nitida); border-radius: 12px; color: #fff; font-size: 15px; outline: none; transition: 0.3s; }
-        .input-group input:focus { border-color: var(--cyan-neon); box-shadow: 0 0 0 1px rgba(0,255,255,0.2); }
+        .input-group input:focus { border-color: var(--cyan-neon); }
         
         .modal-actions { display: flex; gap: 12px; margin-top: 30px; }
         .btn-cancelar, .btn-salvar { flex: 1; padding: 16px; border-radius: 12px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; border: none; transition: 0.2s; letter-spacing: 0.5px; }
         .btn-cancelar { background: var(--input-bg); border: 1px solid var(--borda-nitida); color: var(--texto-med); }
         .btn-cancelar:active { background: #1E293B; }
-        .btn-salvar { background: var(--gradiente-cta); color: #fff; box-shadow: 0 4px 15px rgba(236,26,124,0.3); }
+        .btn-salvar { background: var(--gradiente-cta); color: #fff; }
         .btn-salvar:active { transform: scale(0.96); }
         
-        .progress-container { width: 100%; height: 10px; background: var(--input-bg); border-radius: 10px; margin: 20px 0; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .progress-container { width: 100%; height: 10px; background: var(--input-bg); border-radius: 10px; margin: 20px 0; overflow: hidden; }
         .progress-bar { height: 100%; background: var(--gradiente-cta); width: 0%; transition: width 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 10px; }
         
-        #toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #10B981; color: #fff; padding: 16px 30px; border-radius: 30px; font-size: 13px; font-weight: 800; display: none; z-index: 4000; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); letter-spacing: 0.5px; }
+        #toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #10B981; color: #fff; padding: 16px 30px; border-radius: 30px; font-size: 13px; font-weight: 800; display: none; z-index: 4000; text-align: center; width: 90%; max-width: 400px; border: 1px solid rgba(255,255,255,0.2); letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
@@ -164,8 +168,12 @@
         
         <div class="profile-header">
             <div class="avatar-wrapper">
-                <div class="br-institutional-icon" id="user-avatar-initial">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <div class="br-institutional-icon">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
                 </div>
             </div>
             <div class="p-name" id="p-nome">Carregando...</div>
@@ -230,12 +238,12 @@
                 </div>
                 <div class="mi-right">
                     <button onclick="copiarConvite(event)" style="background:none; border:none; color:var(--texto-med); cursor:pointer; padding:5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-                   <button onclick="partilharConvite(event)" style="background:none; border:none; color:var(--cyan-neon); cursor:pointer; padding:5px; margin-left:5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
+                    <button onclick="partilharConvite(event)" style="background:none; border:none; color:var(--cyan-neon); cursor:pointer; padding:5px; margin-left:5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
                 </div>
             </div>
         </div>
 
-        <div class="menu-section">
+<div class="menu-section">
             <div class="menu-title">Canais de Suporte</div>
             <div class="menu-item" onclick="window.location.href='chat.html'">
                 <div class="mi-left">
@@ -246,14 +254,14 @@
             </div>
             <div class="menu-item" onclick="abrirSuporte('whatsapp')">
                 <div class="mi-left">
-                    <div class="mi-icon-wrapper" style="color:#25D366; border-color: rgba(37, 211, 102, 0.2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
+                    <div class="mi-icon-wrapper" style="color:#25D366;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
                     <span class="mi-title">WhatsApp Oficial</span>
                 </div>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--texto-med)" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </div>
             <div class="menu-item" onclick="abrirSuporte('telegram')">
                 <div class="mi-left">
-                    <div class="mi-icon-wrapper" style="color:#0088cc; border-color: rgba(0, 136, 204, 0.2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></div>
+                    <div class="mi-icon-wrapper" style="color:#0088cc;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></div>
                     <span class="mi-title">Comunidade Telegram</span>
                 </div>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--texto-med)" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -307,11 +315,7 @@
                 <label>Senha de Confirmação</label>
                 <input type="password" id="updSenhaTel" placeholder="Digite sua senha de login">
             </div>
-            <div class="modal-actions">
-                <button class="btn-cancelar" onclick="fecharModais()">Cancelar</button>
-                <button class="btn-salvar" onclick="salvarNovoTelefone(this)">Guardar Novo</button>
-            </div>
-        </div>
+</div>
     </div>
     
     <div class="modal-overlay" id="modalSeguranca">
@@ -387,7 +391,7 @@
                     localStorage.setItem('br_user', JSON.stringify(dadosUsuario));
                     renderizarPerfil(dadosUsuario, data.ganhos);
                 } else {
-                    localStorage.removeItem('br_token');
+localStorage.removeItem('br_token');
                     window.location.href = 'login.html';
                 }
             } catch (e) { 
@@ -405,9 +409,8 @@
             const nomeStr = u.nome || "Usuário";
             document.getElementById('p-nome').innerText = nomeStr;
             
-            // Lógica de injeção da Inicial do Usuário na Identidade Visual Fixa
-            const avatarBox = document.getElementById('user-avatar-initial');
-            avatarBox.innerHTML = nomeStr.charAt(0).toUpperCase();
+            // REMOVIDA CÓDIGO JS QUE CAUSAVA REFLOW DE RENDERIZAÇÃO
+            // O logotipo no HTML já serve como avatar padrão.
 
             document.getElementById('p-id').innerText = "ID: " + (u.idUnico || "---");
             document.getElementById('p-telefone').innerText = u.telefone || "---";
@@ -445,7 +448,6 @@
             } catch(e) { console.log("Falha ao sincronizar com a Diretoria"); }
         }
 
-        // CORREÇÃO APLICADA AQUI: Adicionada a chave de fechamento }
         function fecharModais() { 
             document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); 
             document.querySelectorAll('input[type="password"], input[type="tel"]').forEach(i => i.value = '');
@@ -463,8 +465,7 @@
             let desc = "Você está a assistir ao mercado de fora. Ative um Node para desbloquear rendimentos contínuos e os bónus de rede.";
             let progresso = 0;
             let txtMeta = "Sem plano ativo";
-
-            if (plano.includes('VIP') || plano.includes('7') || plano.includes('8')) {
+if (plano.includes('VIP') || plano.includes('7') || plano.includes('8')) {
                 nivel = "VIP GOLD"; proximo = "MÁXIMO"; 
                 desc = "Mestre! Você atingiu o nível máximo da plataforma. Aproveite os maiores lucros e suporte prioritário.";
                 progresso = 100;
@@ -539,7 +540,7 @@
                 });
             }
         }
-        function fecharRegrasSaque() { 
+function fecharRegrasSaque() { 
             document.getElementById('viewRegrasSaque').style.display = 'none'; 
             clearInterval(timerRegras); 
         }
@@ -612,7 +613,7 @@
                 timerTxt.style.fontSize = "14px"; 
                 
                 if(!diaUtil) {
-                    timerTxt.innerText = "Disponível apenas de Segunda a Sexta-feira.";
+timerTxt.innerText = "Disponível apenas de Segunda a Sexta-feira.";
                 } else if (agora < aberturaHj) {
                     timerTxt.innerText = `Abre hoje às ${horaAbreStr}.`;
                 } else {
