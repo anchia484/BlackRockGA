@@ -35,12 +35,31 @@
         /* ==================== CONTEÚDO PRINCIPAL ==================== */
         .main-content { padding: 20px; display: flex; flex-direction: column; gap: 25px; max-width: 600px; margin: 0 auto; }
         
-        /* HEADER DO PERFIL (FOTO, NOME, ID) */
+        /* =========================================
+           🛡️ NOVA IDENTIDADE VISUAL BLACKROCK
+        ========================================= */
         .profile-header { display: flex; flex-direction: column; align-items: center; background: var(--bg-card); border: 1px solid var(--borda-nitida); border-radius: 20px; padding: 35px 20px 25px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
         .profile-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradiente-cta); border-top-left-radius: 20px; border-top-right-radius: 20px; }
+        
         .avatar-wrapper { position: relative; margin-bottom: 15px; }
-        .btn-edit-avatar { position: absolute; bottom: 0; right: -5px; background: var(--bg-card); border: 2px solid var(--verde-menta); width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--verde-menta); box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.3s; }
-        .btn-edit-avatar:active { transform: scale(0.9); }
+
+        /* Nova Identidade Institucional Minimalista */
+        .br-institutional-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(236,26,124,0.1), rgba(78,63,234,0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            color: var(--cyan-neon);
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
         .p-name { font-size: 22px; font-weight: 900; margin-bottom: 5px; text-align: center; color: #FFF; }
         .p-id { font-size: 13px; color: var(--texto-med); margin-bottom: 15px; letter-spacing: 1px; }
         .p-status { padding: 6px 16px; border-radius: 30px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 6px; background: rgba(56,224,144,0.1); border: 1px solid rgba(56,224,144,0.3); color: var(--verde-menta); letter-spacing: 0.5px; }
@@ -138,10 +157,9 @@
     <div class="main-content">
         
         <div class="profile-header">
-            <div class="avatar-wrapper" onclick="abrirModalFoto()">
-                <div id="user-avatar" style="width: 85px; height: 85px; border-radius: 50%; background: var(--magenta); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 900; color: #FFF; box-shadow: 0 8px 20px rgba(0,0,0,0.5); cursor: pointer; background-size: cover; background-position: center; border: 3px solid var(--borda-nitida);">BR</div>
-                <div class="btn-edit-avatar">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            <div class="avatar-wrapper">
+                <div class="br-institutional-icon" id="user-avatar-initial">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </div>
             </div>
             <div class="p-name" id="p-nome">Carregando...</div>
@@ -205,8 +223,8 @@
                     <div class="mi-text"><span class="mi-title">Código Convite</span><span class="mi-sub" id="p-convite">---</span></div>
                 </div>
                 <div class="mi-right">
-                    <button onclick="copiarConvite(event)" style="background:none; border:none; color:var(--texto-med); cursor:pointer; padding:5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-                    <button onclick="partilharConvite(event)" style="background:none; border:none; color:var(--cyan-neon); cursor:pointer; padding:5px; margin-left:5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
+<button onclick="copiarConvite(event)" style="background:none; border:none; color:var(--texto-med); cursor:pointer; padding:5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                      <button onclick="partilharConvite(event)" style="background:none; border:none; color:var(--cyan-neon); cursor:pointer; padding:5px; margin-left:5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
                 </div>
             </div>
         </div>
@@ -241,7 +259,8 @@
             SAIR DA CONTA
         </button>
     </div>
-<div id="viewRegrasSaque" class="saque-rules-view">
+    
+    <div id="viewRegrasSaque" class="saque-rules-view">
         <div class="sr-header">
             <button class="btn-icon" onclick="fecharRegrasSaque()" style="color:#FFF; background:none; border:none; cursor:pointer;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
             <h2>Termos de Levantamento</h2>
@@ -266,8 +285,7 @@
             <button id="btn-ir-saque" class="btn-go-saque bloqueado" disabled>A CARREGAR...</button>
         </div>
     </div>
-
-    <div class="modal-overlay" id="modalTelefone">
+<div class="modal-overlay" id="modalTelefone">
         <div class="modal-content">
             <h3 style="margin-bottom: 25px; color: var(--cyan-neon); font-weight: 900; font-size: 18px;">ALTERAR TELEFONE</h3>
             <div class="input-group">
@@ -316,7 +334,7 @@
             <div style="font-size: 45px; margin-bottom: 15px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">🏆</div>
             <h3 style="color: var(--magenta); margin-bottom: 12px; font-size: 20px; font-weight: 900; letter-spacing: 1px;" id="mn-titulo">Carregando...</h3>
             <p style="font-size: 13px; color: var(--texto-med); line-height: 1.6; margin-bottom: 5px;" id="mn-desc">Conectando ao terminal de patentes...</p>
-            
+          
             <div class="progress-container">
                 <div class="progress-bar" id="mn-progresso"></div>
             </div>
@@ -325,21 +343,7 @@
             <button class="btn-salvar" style="width: 100%;" onclick="fecharModais()">Compreendido</button>
         </div>
     </div>
-
-    <div class="modal-overlay" id="modalFoto">
-        <div class="modal-content" style="text-align: center;">
-            <h3 style="margin-bottom: 20px; color: var(--verde-menta); font-weight: 900; font-size: 18px;">FOTO DE PERFIL</h3>
-            <p style="font-size: 13px; color: var(--texto-med); margin-bottom: 25px; line-height: 1.5;">Escolha uma imagem da sua galeria. Ela será comprimida e otimizada para o aplicativo.</p>
-            
-            <input type="file" id="inputFoto" accept="image/*" style="display: none;" onchange="processarFotoSelecionada(event)">
-            
-            <button class="btn-salvar" style="width: 100%; margin-bottom: 12px;" onclick="document.getElementById('inputFoto').click()">Escolher da Galeria</button>
-            <button class="btn-cancelar" style="width: 100%; border-color: rgba(255, 75, 75, 0.3); color: var(--alerta); background: rgba(255, 75, 75, 0.05);" onclick="removerFoto()">Remover Foto Atual</button>
-            <button class="btn-cancelar" style="width: 100%; margin-top: 15px; border: none; text-decoration: underline;" onclick="fecharModais()">Cancelar Ação</button>
-        </div>
-    </div>
-
-    <div class="bottom-nav">
+<div class="bottom-nav">
         <a href="dashboard.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Início</a>
         <a href="planos.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> Planos</a>
         <a href="tarifas.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Tarifas</a>
@@ -347,7 +351,8 @@
         <a href="feed.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><line x1="4" y1="10" x2="20" y2="10"></line><line x1="10" y1="10" x2="10" y2="20"></line></svg> Feed</a>
         <a href="perfil.html" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Perfil</a>
     </div>
-<script>
+
+    <script>
         const URL_BASE = 'https://blackrock-gest-o.onrender.com';
         let dadosUsuario = null;
         let configsDiretoria = null;
@@ -371,14 +376,9 @@
                 if(res.ok) {
                     const data = await res.json();
                     dadosUsuario = data.user;
-                    
-                    // A MURALHA: Gravação blindada no aparelho
                     localStorage.setItem('br_user', JSON.stringify(dadosUsuario));
-                    
                     renderizarPerfil(dadosUsuario, data.ganhos);
-                    carregarFotoLocal();
                 } else {
-                    // EXPULSA O USUÁRIO SE O TOKEN FOR FALSO OU A CONTA BANIDA
                     localStorage.removeItem('br_token');
                     window.location.href = 'login.html';
                 }
@@ -393,15 +393,19 @@
             setTimeout(() => t.style.display = 'none', 3000);
         }
 
-        // 🚀 CORREÇÃO 1: NÍVEL AGORA LÊ A VARIÁVEL "planoAtivo"
         function renderizarPerfil(u, ganhos) {
-            document.getElementById('p-nome').innerText = u.nome || "Usuário";
+            const nomeStr = u.nome || "Usuário";
+            document.getElementById('p-nome').innerText = nomeStr;
+            
+            // Lógica de injeção da Inicial do Usuário na Identidade Visual Fixa
+            const avatarBox = document.getElementById('user-avatar-initial');
+            avatarBox.innerHTML = nomeStr.charAt(0).toUpperCase();
+
             document.getElementById('p-id').innerText = "ID: " + (u.idUnico || "---");
             document.getElementById('p-telefone').innerText = u.telefone || "---";
             document.getElementById('p-convite').innerText = u.meuCodigoConvite || "---";
             document.getElementById('fs-saldo').innerText = Number(u.saldo || 0).toLocaleString('pt-PT') + " MZN";
-            
-            if(ganhos && ganhos.total !== undefined) {
+if(ganhos && ganhos.total !== undefined) {
                 document.getElementById('fs-lucro').innerText = "+" + Number(ganhos.total).toLocaleString('pt-PT') + " MZN";
             }
             
@@ -433,16 +437,13 @@
             } catch(e) { console.log("Falha ao sincronizar com a Diretoria"); }
         }
 
-        /* ===== FUNÇÕES DOS MODAIS ===== */
         function fecharModais() { 
             document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); 
             document.querySelectorAll('input[type="password"], input[type="tel"]').forEach(i => i.value = '');
         }
         function abrirModalTelefone() { document.getElementById('modalTelefone').style.display='flex'; }
         function abrirModalSeguranca() { document.getElementById('modalSeguranca').style.display='flex'; }
-        function abrirModalFoto() { document.getElementById('modalFoto').style.display='flex'; }
 
-        // 🚀 CORREÇÃO 2: MODAL LÊ O PLANO E EXPLICA A GAMIFICAÇÃO
         function abrirModalNivel() { 
             if(!dadosUsuario) return;
             
@@ -467,7 +468,7 @@
                 nivel = "STANDARD"; proximo = "PREMIUM PLUS";
                 desc = "Você já está a lucrar connosco diariamente. Evolua o seu contrato para atingir a Elite BlackRock.";
                 progresso = 33;
-                txtMeta = "Próximo passo: Planos Premium";
+txtMeta = "Próximo passo: Planos Premium";
             }
 
             document.getElementById('mn-titulo').innerText = nivel;
@@ -478,132 +479,12 @@
             document.getElementById('modalNivel').style.display = 'flex';
             
             setTimeout(() => {
-                document.getElementById('mn-progresso').style.width = `${progresso}%`;
-            }, 150);
+                document.getElementById('mn-progresso').style.width = progresso + '%';
+            }, 100);
         }
 
-        /* ===== ATUALIZAÇÕES DE PERFIL E SEGURANÇA ===== */
-        async function salvarSenha(btn) {
-            const atual = document.getElementById('updSenhaAtual').value;
-            const nova = document.getElementById('updSenhaNova').value;
-            const conf = document.getElementById('updSenhaNovaConf').value;
-
-            if(!atual || !nova || !conf) return mostrarNotificacao("Preencha todos os campos.", "var(--alerta)");
-            if(nova !== conf) return mostrarNotificacao("As senhas novas não coincidem.", "var(--alerta)");
-
-            enviarProBackend({ senhaAtual: atual, novaSenha: nova }, btn);
-        }
-
-        async function salvarNovoTelefone(btn) {
-            const antigo = document.getElementById('updTelAntigo').value;
-            const novo = document.getElementById('updTelNovo').value;
-            const senha = document.getElementById('updSenhaTel').value;
-
-            if(!antigo || !novo || !senha) return mostrarNotificacao("Preencha todos os campos.", "var(--alerta)");
-            if(antigo !== dadosUsuario.telefone) return mostrarNotificacao("O número antigo está incorreto.", "var(--alerta)");
-
-            enviarProBackend({ senhaAtual: senha, telefone: novo }, btn);
-        }
-
-        async function enviarProBackend(payload, btn) {
-            const originalText = btn.innerText;
-            btn.innerText = "Aguarde..."; btn.disabled = true;
-            try {
-                const res = await fetch(`${URL_BASE}/api/auth/perfil/atualizar`, { 
-                    method:'PUT', headers:{'Content-Type':'application/json','Authorization':`Bearer ${localStorage.getItem('br_token')}`}, 
-                    body:JSON.stringify(payload) 
-                });
-                const d = await res.json();
-                if(res.ok) { 
-                    mostrarNotificacao("Atualização concluída com sucesso!", "var(--verde-menta)"); 
-                    fecharModais(); 
-                    if(payload.telefone) document.getElementById('p-telefone').innerText = payload.telefone;
-                } else { mostrarNotificacao(d.erro || "Erro de validação.", "var(--alerta)"); }
-            } catch(e) { mostrarNotificacao("Erro de comunicação.", "var(--alerta)"); } 
-            finally { btn.innerText = originalText; btn.disabled = false; }
-        }
-
-        // ==========================================
-        // COMPRESSÃO
-        // ==========================================
-        function processarFotoSelecionada(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.src = e.target.result;
-                
-                img.onload = async function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    const MAX_WIDTH = 800; const MAX_HEIGHT = 800;
-                    let width = img.width; let height = img.height;
-
-                    if (width > height) {
-                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                    } else {
-                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                    }
-
-                    canvas.width = width; canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    const base64Comprimido = canvas.toDataURL('image/jpeg', 0.7);
-
-                    localStorage.setItem('br_user_foto', base64Comprimido); 
-                    carregarFotoLocal(); 
-                    fecharModais(); 
-                    mostrarNotificacao("A guardar foto no servidor...", "var(--cyan-neon)");
-                    
-                    try {
-                        const res = await fetch(`${URL_BASE}/api/usuario/atualizar-foto`, {
-                            method: 'PATCH',
-                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('br_token')}` },
-                            body: JSON.stringify({ fotoBase64: base64Comprimido })
-                        });
-                        if(res.ok) mostrarNotificacao("Foto atualizada globalmente!", "var(--verde-menta)");
-                        else mostrarNotificacao("Erro ao salvar foto na nuvem.", "var(--alerta)");
-                    } catch (e) {
-                        mostrarNotificacao("Servidor ocupado. Foto guardada localmente.", "var(--alerta)");
-                    }
-                };
-            };
-            reader.readAsDataURL(file);
-        }
+        function gerarLink() { return `https://black-rock-ga.vercel.app/registro.html?convite=${dadosUsuario ? dadosUsuario.meuCodigoConvite : 'BR0000'}`; }
         
-        async function removerFoto() { 
-            localStorage.removeItem('br_user_foto'); 
-            carregarFotoLocal(); 
-            fecharModais(); 
-            
-            try {
-                await fetch(`${URL_BASE}/api/usuario/atualizar-foto`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('br_token')}` },
-                    body: JSON.stringify({ fotoBase64: '' })
-                });
-                mostrarNotificacao("Foto removida com sucesso.", "var(--verde-menta)"); 
-            } catch (e) {}
-        }
-        function carregarFotoLocal() {
-            const foto = dadosUsuario && dadosUsuario.fotoPerfil ? dadosUsuario.fotoPerfil : localStorage.getItem('br_user_foto');
-            const avatarDiv = document.getElementById('user-avatar');
-            
-            if(foto && foto !== 'undefined') {
-                avatarDiv.style.backgroundImage = `url(${foto})`;
-                avatarDiv.innerText = '';
-                localStorage.setItem('br_user_foto', foto); 
-            } else {
-                avatarDiv.style.backgroundImage = 'none';
-                avatarDiv.innerText = dadosUsuario ? dadosUsuario.nome.charAt(0).toUpperCase() : 'BR';
-            }
-        }
-
-        /* ===== PARTILHA E REDES SOCIAIS ===== */
-        function gerarLink() { return 'https://black-rock-ga.vercel.app/registro.html?convite=${dadosUsuario ? dadosUsuario.meuCodigoConvite : 'BR0000'}`; }
         function copiarConvite(event) {
             if(event) event.stopPropagation();
             const link = gerarLink();
@@ -636,7 +517,6 @@
             else alert("A Diretoria desativou temporariamente este canal.");
         }
 
-        /* ===== REGRAS DE SAQUE DINÂMICAS E CONTAGEM REGRESSIVA ===== */
         function abrirRegrasSaque() { 
             document.getElementById('viewRegrasSaque').style.display = 'block'; 
             if (configsDiretoria) {
@@ -649,11 +529,11 @@
                 });
             }
         }
-
-        function fecharRegrasSaque() { 
+function fecharRegrasSaque() { 
             document.getElementById('viewRegrasSaque').style.display = 'none'; 
             clearInterval(timerRegras); 
         }
+        
         function atualizarContagemSaque() {
             if(!configsDiretoria) return; 
 
@@ -709,8 +589,7 @@
                 let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 let s = Math.floor((diff % (1000 * 60)) / 1000);
-                
-                timerTxt.style.fontSize = "24px"; 
+timerTxt.style.fontSize = "24px"; 
                 timerTxt.innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
                 
                 btn.className = "btn-go-saque ativo"; 

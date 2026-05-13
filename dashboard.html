@@ -20,8 +20,17 @@
         /* HEADER FIXO AVANÇADO */
         .header-fixed { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(10, 12, 18, 0.95); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 1px solid var(--borda-nitida); z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
         .h-left { display: flex; align-items: center; gap: 12px; }
-        .h-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--borda-nitida); display: flex; justify-content: center; align-items: center; overflow: hidden; font-weight: 900; color: var(--cyan-neon); cursor: pointer; }
-        .h-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* Nova Identidade Institucional no Cabeçalho */
+        .h-avatar {
+            width: 42px; height: 42px; border-radius: 12px;
+            background: linear-gradient(135deg, rgba(236,26,124,0.1), rgba(78,63,234,0.1));
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 900; color: var(--cyan-neon); font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-transform: uppercase;
+        }
+        
         .h-info { display: flex; flex-direction: column; }
         .h-welcome { font-size: 13px; font-weight: 800; color: #FFF; }
         .h-status { font-size: 10px; font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: 2px; text-transform: uppercase; }
@@ -93,7 +102,7 @@
 <body>
     <header class="header-fixed">
         <div class="h-left">
-            <div class="h-avatar" id="topo-avatar" onclick="visualizarFoto()" style="cursor: pointer;">U</div>
+            <div class="h-avatar" id="topo-avatar">U</div>
             <div class="h-info">
                 <span class="h-welcome" id="txt-welcome">A carregar...</span>
                 <span class="h-status" id="txt-status">
@@ -110,10 +119,6 @@
             </a>
         </div>
     </header>
-
-    <div id="modal-foto" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
-        <img id="foto-ampliada" src="" style="max-width:90%; max-height:80%; border-radius:20px; box-shadow: 0 0 40px rgba(0, 255, 255, 0.4); object-fit:contain;">
-    </div>
     
     <div class="main-content">
         <div class="saldo-master">
@@ -250,28 +255,23 @@
             const token = localStorage.getItem('br_token');
             if(!token) { window.location.href = 'login.html'; return; }
 
-            const avatarLocal = localStorage.getItem('br_user_foto');
-            const avatarContainer = document.getElementById('topo-avatar');
-            if (avatarLocal && avatarLocal.startsWith('data:image')) {
-                avatarContainer.innerHTML = `<img src="${avatarLocal}" alt="Perfil" style="width:100%; height:100%; object-fit:cover;">`;
+            const userStr = localStorage.getItem('br_user');
+            if(userStr) {
+                try {
+                    const userObj = JSON.parse(userStr);
+                    const inicial = userObj.nome ? userObj.nome.charAt(0).toUpperCase() : 'U';
+                    document.getElementById('topo-avatar').innerText = inicial;
+                } catch(e) {
+                    document.getElementById('topo-avatar').innerText = 'U';
+                }
             }
 
             await buscarDadosDaAPI(token);
         };
 
-        function visualizarFoto() {
-            const avatarLocal = localStorage.getItem('br_user_foto');
-            if(avatarLocal && avatarLocal.startsWith('data:image')) {
-                document.getElementById('foto-ampliada').src = avatarLocal;
-                document.getElementById('modal-foto').style.display = 'flex';
-            } else {
-                alert("Você ainda não configurou uma foto de perfil. Vá até a aba Perfil.");
-            }
-        }
-
         function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
-        // ==========================================
+             // ==========================================
         // MOTOR DE ISOLAMENTO BLACKROCK ATIVADO
         // ========================================
         async function buscarDadosDaAPI(token) {
@@ -345,6 +345,7 @@
 
         function renderizarDashboard() {
             document.getElementById('txt-welcome').innerText = `Olá, ${db.nome.split(' ')[0]}`;
+            document.getElementById('topo-avatar').innerText = db.nome.charAt(0).toUpperCase();
             
             const badgeNotif = document.getElementById('notif-count');
             if(db.notifs > 0) { badgeNotif.innerText = db.notifs; badgeNotif.style.display = 'flex'; } 

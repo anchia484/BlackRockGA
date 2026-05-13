@@ -20,7 +20,17 @@
         /* HEADER IDÊNTICO AO DASHBOARD */
         .header-fixed { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(10, 12, 18, 0.95); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 1px solid var(--borda-nitida); z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
         .h-left { display: flex; align-items: center; gap: 12px; }
-        .h-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--borda-nitida); display: flex; justify-content: center; align-items: center; overflow: hidden; font-weight: 900; color: var(--cyan-neon); }
+        
+        /* Nova Identidade Institucional no Cabeçalho */
+        .h-avatar {
+            width: 42px; height: 42px; border-radius: 12px;
+            background: linear-gradient(135deg, rgba(236,26,124,0.1), rgba(78,63,234,0.1));
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 900; color: var(--cyan-neon); font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-transform: uppercase;
+        }
+        
         .h-info { display: flex; flex-direction: column; }
         .h-welcome { font-size: 13px; font-weight: 800; color: #FFF; text-transform: uppercase; }
         .h-status { font-size: 10px; font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: 2px; text-transform: uppercase; color: var(--verde-menta); }
@@ -105,7 +115,7 @@
 <body>
 <header class="header-fixed">
         <div class="h-left">
-            <div class="h-avatar" id="topo-avatar" onclick="visualizarFoto()" style="cursor: pointer;">BR</div>
+            <div class="h-avatar" id="topo-avatar">U</div>
             <div class="h-info">
                 <span class="h-welcome">Portfólio de Ativos</span>
                 <span class="h-status">
@@ -120,15 +130,10 @@
             </a>
         </div>
     </header>
-<!-- MODAL DE VISUALIZAÇÃO DE FOTO -->
-    <div id="modal-foto" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
-        <img id="foto-ampliada" src="" style="max-width:90%; max-height:80%; border-radius:20px; box-shadow: 0 0 40px rgba(0, 255, 255, 0.4); object-fit:contain;">
-    </div>
 
     <div id="toast">Notificação</div>
 
     <div class="main-content">
-        <!-- CAIXA DE RESUMO DO UTILIZADOR -->
         <div class="resumo-master">
             <div class="res-col">
                 <span>Saldo em Conta</span>
@@ -140,13 +145,11 @@
             </div>
         </div>
 
-        <!-- LISTA DINÂMICA DE PLANOS -->
         <div id="lista-planos">
             <p style="text-align:center; font-size:12px; color:var(--texto-med); margin-top:40px;">A sincronizar ativos com a Diretoria...</p>
         </div>
     </div>
 
-    <!-- CALCULADORA / MODAL DE CHECKOUT COM LÓGICA DE UPGRADE -->
     <div class="modal-overlay" id="modal-calc">
         <div class="modal-calculadora">
             <div class="modal-header">
@@ -220,10 +223,16 @@
             const token = localStorage.getItem('br_token');
             if(!token) { window.location.href = 'login.html'; return; }
 
-            // Avatar
-            const avatarLocal = localStorage.getItem('br_user_foto');
-            if (avatarLocal && avatarLocal.startsWith('data:image')) {
-                document.getElementById('topo-avatar').innerHTML = `<img src="${avatarLocal}" style="width:100%; height:100%; object-fit:cover;">`;
+            // Injeta a Inicial do Usuário no Avatar do Cabeçalho
+            const userStr = localStorage.getItem('br_user');
+            if(userStr) {
+                try {
+                    const userObj = JSON.parse(userStr);
+                    const inicial = userObj.nome ? userObj.nome.charAt(0).toUpperCase() : 'U';
+                    document.getElementById('topo-avatar').innerText = inicial;
+                } catch(e) {
+                    document.getElementById('topo-avatar').innerText = 'U';
+                }
             }
 
             await buscarDados(token);
@@ -232,16 +241,6 @@
 
         function formatar(v) { return (Number(v) || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
         function showNotif(msg, cor = 'var(--alerta)') { const t = document.getElementById('toast'); t.innerText = msg; t.style.background = cor; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 4000); }
-       // FUNÇÃO DE VISUALIZAR A FOTO EM ECRÃ INTEIRO
-        function visualizarFoto() {
-            const avatarLocal = localStorage.getItem('br_user_foto');
-            if(avatarLocal && avatarLocal.startsWith('data:image')) {
-                document.getElementById('foto-ampliada').src = avatarLocal;
-                document.getElementById('modal-foto').style.display = 'flex';
-            } else {
-                alert("Você ainda não configurou uma foto de perfil.");
-            }
-        }
 
         async function buscarDados(token) {
             try {
