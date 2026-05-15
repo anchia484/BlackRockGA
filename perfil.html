@@ -243,7 +243,7 @@
             </div>
             <div class="menu-item" onclick="abrirSuporte('telegram')">
                 <div class="mi-left">
-<div class="mi-icon-wrapper" style="color:#0088cc; border-color: var(--borda-nitida);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></div>
+                  <div class="mi-icon-wrapper" style="color:#0088cc; border-color: var(--borda-nitida);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></div>
                     <span class="mi-title">Comunidade Telegram</span>
                 </div>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--texto-med)" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -315,11 +315,11 @@
                 <label>Nova Senha</label>
                 <input type="password" id="updSenhaNova" placeholder="Pelo menos 6 caracteres">
             </div>
-<div class="input-group">
+            <div class="input-group">
                 <label>Confirmar Nova Senha</label>
                 <input type="password" id="updSenhaNovaConf" placeholder="Repita a nova senha">
             </div>
-            <div class="modal-actions">
+             <div class="modal-actions">
                 <button class="btn-cancelar" onclick="fecharModais()">Cancelar</button>
                 <button class="btn-salvar" onclick="salvarSenha(this)">Atualizar Senha</button>
             </div>
@@ -387,10 +387,10 @@
             t.innerText = msg; t.style.background = cor; t.style.display = 'block';
             setTimeout(() => t.style.display = 'none', 3000);
         }
-function renderizarPerfil(u, ganhos) {
+
+        function renderizarPerfil(u, ganhos) {
             const nomeStr = u.nome || "Usuário";
             document.getElementById('p-nome').innerText = nomeStr;
-            
             document.getElementById('p-id').innerText = "ID: " + (u.idUnico || "---");
             document.getElementById('p-telefone').innerText = u.telefone || "---";
             document.getElementById('p-convite').innerText = u.meuCodigoConvite || "---";
@@ -461,7 +461,7 @@ function renderizarPerfil(u, ganhos) {
                 progresso = 33;
                 txtMeta = "Próximo passo: Planos Premium";
             }
-document.getElementById('mn-titulo').innerText = nivel;
+            document.getElementById('mn-titulo').innerText = nivel;
             document.getElementById('mn-desc').innerText = desc;
             document.getElementById('mn-meta').innerText = txtMeta;
             
@@ -519,6 +519,7 @@ document.getElementById('mn-titulo').innerText = nivel;
                 });
             }
         }
+        
         function fecharRegrasSaque() { 
             document.getElementById('viewRegrasSaque').style.display = 'none'; 
             clearInterval(timerRegras); 
@@ -534,7 +535,7 @@ document.getElementById('mn-titulo').innerText = nivel;
                 pRegras.innerHTML = configsDiretoria.saqueInformacoes.replace(/\n/g, '<br>');
                 if(ulRegras) ulRegras.style.display = 'none';
             }
-const agora = new Date();
+            const agora = new Date();
             const btn = document.getElementById('btn-ir-saque');
             const titulo = document.getElementById('sr-status-title');
             const timerTxt = document.getElementById('sr-timer');
@@ -603,7 +604,89 @@ const agora = new Date();
                 btn.onclick = null;
             }
         }
-function fazerLogout() { 
+
+        // ==========================================
+        // MOTOR DE ATUALIZAÇÃO DE CREDENCIAIS (TELEFONE E SENHA)
+        // ==========================================
+       async function salvarNovoTelefone(btn) {
+            const telAntigo = document.getElementById('updTelAntigo').value;
+            const telNovo = document.getElementById('updTelNovo').value;
+            const senhaAtual = document.getElementById('updSenhaTel').value;
+
+            if(!telAntigo || !telNovo || !senhaAtual) return mostrarNotificacao('Preencha todos os campos.', 'var(--alerta)');
+            if(telNovo.length < 8) return mostrarNotificacao('O novo número parece inválido.', 'var(--alerta)');
+
+            const token = localStorage.getItem('br_token');
+            const textoOriginal = btn.innerHTML;
+            btn.innerHTML = 'A GUARDAR...'; btn.disabled = true;
+
+            try {
+                const res = await fetch(`${URL_BASE}/api/auth/perfil/atualizar`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ telefone: telNovo, senhaAtual: senhaAtual })
+                });
+                
+                const data = await res.json();
+
+                if(res.ok) {
+                    mostrarNotificacao('Telefone atualizado com sucesso!', 'var(--verde-menta)');
+                    document.getElementById('p-telefone').innerText = telNovo;
+                    
+                    if(dadosUsuario) { 
+                        dadosUsuario.telefone = telNovo; 
+                        localStorage.setItem('br_user', JSON.stringify(dadosUsuario)); 
+                    }
+                    setTimeout(() => fecharModais(), 1500);
+                } else {
+                    mostrarNotificacao(data.erro || 'Erro ao atualizar telefone.', 'var(--alerta)');
+                }
+            } catch(e) {
+                mostrarNotificacao('Sem ligação ao servidor.', 'var(--alerta)');
+            }
+            btn.innerHTML = textoOriginal; btn.disabled = false;
+        }
+
+        async function salvarSenha(btn) {
+            const senhaAtual = document.getElementById('updSenhaAtual').value;
+            const senhaNova = document.getElementById('updSenhaNova').value;
+            const senhaConf = document.getElementById('updSenhaNovaConf').value;
+
+            if(!senhaAtual || !senhaNova || !senhaConf) return mostrarNotificacao('Preencha todos os campos.', 'var(--alerta)');
+            if(senhaNova !== senhaConf) return mostrarNotificacao('A nova senha e a confirmação não coincidem.', 'var(--alerta)');
+            if(senhaNova.length < 6) return mostrarNotificacao('A nova senha deve ter no mínimo 6 caracteres.', 'var(--alerta)');
+
+            const token = localStorage.getItem('br_token');
+            const textoOriginal = btn.innerHTML;
+            btn.innerHTML = 'A ATUALIZAR...'; btn.disabled = true;
+
+            try {
+                const res = await fetch(`${URL_BASE}/api/auth/perfil/atualizar`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ novaSenha: senhaNova, senhaAtual: senhaAtual })
+                });
+                
+                const data = await res.json();
+
+                if(res.ok) {
+                    mostrarNotificacao('Senha alterada! Por favor, faça login novamente.', 'var(--magenta)');
+                    setTimeout(() => {
+                        fecharModais();
+                        localStorage.removeItem('br_token'); 
+                        localStorage.removeItem('br_user'); 
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    mostrarNotificacao(data.erro || 'Erro ao atualizar a senha.', 'var(--alerta)');
+                }
+            } catch(e) {
+            mostrarNotificacao('Sem ligação ao servidor.', 'var(--alerta)');
+            }
+            btn.innerHTML = textoOriginal; btn.disabled = false;
+        }
+
+        function fazerLogout() { 
             if(confirm("Sair do terminal?")) { 
                 localStorage.removeItem('br_token'); 
                 localStorage.removeItem('br_user'); 
@@ -671,7 +754,7 @@ function fazerLogout() {
         // Interceptador Global do Frontend para Erros 401
         const fetchOriginal = window.fetch;
         window.fetch = async function() {
-            const resposta = await fetchOriginal.apply(this, arguments);
+        const resposta = await fetchOriginal.apply(this, arguments);
             if (resposta.status === 401) {
                 exibirModalExpiracao();
             }
