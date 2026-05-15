@@ -257,7 +257,7 @@
 
 function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
-        async function buscarDadosDaAPI(token) {
+async function buscarDadosDaAPI(token) {
             try {
                 // 🚀 GARANTINDO QUE A ROTA SEJA "/api/usuario/dashboard"
                 const res = await fetch(`${URL_BASE}/api/usuario/dashboard`, { headers: { 'Authorization': `Bearer ${token}` } });
@@ -272,7 +272,6 @@ function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', {
                         db.statusConta = data.user.status || "ativo";
                         db.saldos.total = data.user.saldo || 0;
                         db.saldos.principal = data.user.saldoPrincipal || data.user.saldo || 0;
-                        db.saldos.bonus = data.user.saldoBonus || 0;
                         db.saldos.bloqueado = data.user.saldoBloqueado || 0;
 
                         const pNome = data.user.planoAtivo || "Nenhum";
@@ -305,6 +304,9 @@ function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', {
                         db.ganhos.semana = data.ganhos.semana || 0;
                         db.ganhos.mes = data.ganhos.mes || 0;
                         db.ganhos.total = data.ganhos.total || 0;
+                        
+                        // 👇 ESTA É A LINHA QUE FALTAVA NO SEU CÓDIGO 👇
+                        db.saldos.bonus = data.ganhos.bonus || 0;
                     }
 
                     db.notifs = data.unreadNotifications || 0;
@@ -320,7 +322,6 @@ function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', {
                 renderizarDashboard(); 
             }
         }
-
         function renderizarDashboard() {
             document.getElementById('txt-welcome').innerText = `Olá, ${db.nome.split(' ')[0]}`;
             
@@ -329,7 +330,7 @@ function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', {
             if(avatarContainer.innerHTML === "U") {
                 avatarContainer.innerText = db.nome.charAt(0).toUpperCase();
             }
-const badgeNotif = document.getElementById('notif-count');
+            const badgeNotif = document.getElementById('notif-count');
             if(db.notifs > 0) { badgeNotif.innerText = db.notifs; badgeNotif.style.display = 'flex'; } 
             else { badgeNotif.style.display = 'none'; }
 
@@ -402,7 +403,7 @@ const badgeNotif = document.getElementById('notif-count');
                 iEye.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             }
         }
-function toggleSaldo() { saldoOculto = !saldoOculto; atualizarValoresVisiveis(); }
+        function toggleSaldo() { saldoOculto = !saldoOculto; atualizarValoresVisiveis(); }
 
         function abrirModalNivel() {
             const t = document.getElementById('modal-nivel-titulo');
@@ -475,7 +476,7 @@ function toggleSaldo() { saldoOculto = !saldoOculto; atualizarValoresVisiveis();
                         temporizadorSessao = setTimeout(exibirModalExpiracao, tempoRestante);
                     }
                 } catch (e) {
-localStorage.clear(); window.location.href = URL_LOGIN;
+                    localStorage.clear(); window.location.href = URL_LOGIN;
                 }
             }
         }
