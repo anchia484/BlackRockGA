@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>BlackRock - Gestão de Equipe e Bônus</title>
     <style>
         /* ==================== CYBER-SLEEK DE LUXO ==================== */
@@ -15,13 +15,12 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent;}
         
-        body { background-color: var(--bg-canvas); color: var(--texto-high); min-height: 100vh; padding-top: 80px; padding-bottom: 100px; overflow-x: hidden; display: block; }
+        body { background-color: var(--bg-canvas); color: var(--texto-high); min-height: 100dvh; padding-top: 80px; padding-bottom: 100px; overflow-x: hidden; display: block; }
 
-        /* HEADER PADRONIZADO (GLASSMORPHISM) */
-        .header-fixed { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(10, 12, 18, 0.85); backdrop-filter: blur(16px); padding: 15px 20px; border-bottom: 1px solid var(--borda-nitida); z-index: 1000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+        /* HEADER PADRONIZADO */
+        .header-fixed { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(10, 12, 18, 0.85); backdrop-filter: blur(16px); padding: calc(15px + env(safe-area-inset-top)) 20px 15px; border-bottom: 1px solid var(--borda-nitida); z-index: 1000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
         .h-left { display: flex; align-items: center; gap: 12px; }
         
-        /* Nova Identidade Institucional no Header */
         .h-avatar { 
             width: 42px; height: 42px; border-radius: 12px; 
             background: linear-gradient(135deg, rgba(236,26,124,0.1), rgba(78,63,234,0.1)); 
@@ -76,7 +75,6 @@
         
         .m-left { display: flex; align-items: center; gap: 14px; }
         
-        /* Nova Identidade Institucional na Lista de Membros */
         .m-avatar { 
             width: 42px; height: 42px; border-radius: 10px; 
             background: linear-gradient(135deg, rgba(236,26,124,0.05), rgba(78,63,234,0.05)); 
@@ -90,7 +88,7 @@
         .badge-nivel { background: rgba(236,26,124,0.15); color: var(--magenta); font-size: 9px; padding: 3px 8px; border-radius: 6px; font-weight: 900; border: 1px solid rgba(236,26,124,0.3); }
         
         .m-right { text-align: right; }
-        .m-ganho { font-size: 14px; font-weight: 900; display: block; margin-bottom: 5px; }
+        .m-ganho { font-size: 12px; font-weight: 800; display: block; margin-bottom: 5px; color: var(--cyan-neon); text-transform: uppercase; }
         .m-status { font-size: 10px; font-weight: 800; text-transform: uppercase; display: inline-flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 20px; }
         .status-ativo { color: var(--verde-menta); border: 1px solid rgba(56,224,144,0.2); } 
         .status-inativo { color: var(--alerta); border: 1px solid rgba(255,75,75,0.2); }
@@ -100,7 +98,7 @@
         
         .empty-state { text-align: center; padding: 60px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
-        /* ==================== CSS DO MODAL CHECKLIST ==================== */
+        /* MODAL CHECKLIST */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px); }
         .chk-modal { max-width: 450px; width: 100%; padding: 0; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--borda-nitida); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .chk-header { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; text-align: center; background: linear-gradient(180deg, rgba(236,26,124,0.05) 0%, transparent 100%); }
@@ -126,9 +124,9 @@
         .req-desc { font-size: 12px; color: var(--texto-med); line-height: 1.4; margin-bottom: 8px; }
         .req-detalhe { font-size: 10px; font-weight: 900; color: var(--cyan-neon); text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* BARRA INFERIOR (PREMIUM iPHONE SAFE AREA) */
+        /* BARRA INFERIOR */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(14, 17, 23, 0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--borda-nitida); display: flex; justify-content: space-around; padding: 14px 0 calc(14px + env(safe-area-inset-bottom)) 0; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--texto-low); text-decoration: none; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--texto-med); text-decoration: none; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; }
         .nav-icon { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: 0.3s; }
         .nav-item.active { color: var(--cyan-neon); }
         .nav-item.active .nav-icon { stroke: var(--cyan-neon); filter: drop-shadow(0 0 8px rgba(0,255,255,0.5)); transform: translateY(-2px); }
@@ -165,7 +163,7 @@
             </div>
             <div class="stat-card destaque">
                 <span>Comissão Recebida</span>
-                <strong id="st-comissao">0.00 MZN</strong>
+                <strong id="st-comissao">0,00 MZN</strong>
             </div>
         </div>
 
@@ -185,7 +183,7 @@
         </div>
 
         <div class="membros-list" id="lista-membros">
-            </div>
+        </div>
     </div>
 
     <div id="modalChecklistAuto" class="modal-overlay">
@@ -248,7 +246,7 @@
 
         function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
-        function mostrarNotificacao(msg, cor = '#10B981') {
+function mostrarNotificacao(msg, cor = '#10B981') {
             const t = document.getElementById('toast'); 
             t.innerText = msg; t.style.background = cor; t.style.display = 'block';
             setTimeout(() => t.style.display = 'none', 3000);
@@ -260,7 +258,6 @@
             
             if (!token || !userStr) { window.location.href = 'login.html'; return; }
             
-            // Injeta a Inicial do Usuário no Avatar do Cabeçalho
             try {
                 const userObj = JSON.parse(userStr);
                 const inicial = userObj.nome ? userObj.nome.charAt(0).toUpperCase() : 'U';
@@ -290,8 +287,6 @@
 
         async function buscarEquipe(token) {
             const container = document.getElementById('lista-membros');
-            
-            // INJEÇÃO DO SKELETON LOADER PREMIUM
             container.innerHTML = Array(4).fill(`
                 <div class="skeleton-item">
                     <div style="display:flex; gap:14px; align-items:center;">
@@ -308,15 +303,15 @@
                 </div>
             `).join('');
 
-                 try {
-                // NOTA TÉCNICA: O seu backend DEVE ter esta rota `/api/rede/equipe` criada. 
-                // Se não a tiver criada no `networkRoutes.js` (ou similar), ele vai cair no Catch (Trabalhando offline).
+            try {
                 const res = await fetch(`${URL_BASE}/api/rede/equipe`, { headers: { 'Authorization': `Bearer ${token}` } });
 
                 if(res.ok) {
                     const data = await res.json();
+                    // 🚀 CORREÇÃO AQUI: Alinhado com o backend 'data.totalConvidados' e 'data.comissaoTotal'
                     document.getElementById('st-total').innerText = data.totalConvidados || 0;
                     document.getElementById('st-comissao').innerText = formatar(data.comissaoTotal || 0) + " MZN";
+                    
                     todosMembros = data.membros || [];
                     filtrarMembros('diretos', document.querySelector('.tab-btn.active'));
                 } else {
@@ -324,8 +319,7 @@
                 }
             } catch(e) { desenharVazio('lista-membros', 'Sem ligação à rede.'); }
         }
-
-        function filtrarMembros(tipo, btnClicado) {
+function filtrarMembros(tipo, btnClicado) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             if(btnClicado) btnClicado.classList.add('active');
 
@@ -344,7 +338,9 @@
                 const statusClass = isAtivo ? 'status-ativo' : 'status-inativo';
                 const statusText = isAtivo ? 'Ativo' : 'Pendente';
                 const badgeHtml = m.nivel > 1 ? `<span class="badge-nivel" style="background:${isAtivo?'rgba(236,26,124,0.15)':'rgba(148,163,184,0.1)'}; color:${isAtivo?'var(--magenta)':'var(--texto-med)'}">NÍVEL ${m.nivel}</span>` : '';
-                const valorInfo = contexto === 'equipe' ? `<span class="m-ganho" style="color:var(--verde-menta);">+${formatar(m.comissaoGerada)} MZN</span>` : `<span class="m-ganho" style="color:var(--cyan-neon); font-size:12px;">Plano: ${m.planoAtivo||'Nenhum'}</span>`;
+                
+                // 🚀 CORREÇÃO AQUI: Mostra o "Plano" exato do utilizador em vez de "0,00 MZN"
+                const valorInfo = `<span class="m-ganho" style="color:var(--cyan-neon);">Node: ${m.planoAtivo || 'Nenhum'}</span>`;
 
                 return `
                     <div class="membro-item" style="animation-delay: ${index * 0.05}s">
@@ -377,7 +373,6 @@
             document.getElementById('modalChecklistAuto').style.display = 'flex';
             const lista = document.getElementById('chk-lista-dinamica');
             
-            // Loader do modal
             lista.innerHTML = `
                 <div style="text-align:center; padding: 40px 20px;">
                     <div class="anim-shimmer" style="width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 15px;"></div>
@@ -394,21 +389,16 @@
                     renderizarChecklistDinamico(data);
                 } else { throw new Error("Erro na API"); }
             } catch(e) {
-                // FALLBACK DE SEGURANÇA
                 renderizarChecklistDinamico({
                     progressoGeral: 0, 
                     isSobAnalise: false,
                     requisitos: [
-                        { 
-                            status: 'falha', 
-                            titulo: 'Plano de Investimento Ativo', 
-                            descricao: 'Possuir um NODE ativo para ter o direito de receber comissões de rede.', 
-                            detalhe: 'Aguardando servidor...' 
-                        }
+{ status: 'falha', titulo: 'Plano de Investimento Ativo', descricao: 'Possuir um NODE ativo para ter o direito de receber comissões de rede.', detalhe: 'Aguardando servidor...' }
                     ]
                 });
             }
         }
+        
         function fecharChecklistAuto() { document.getElementById('modalChecklistAuto').style.display = 'none'; }
 
         function renderizarChecklistDinamico(data) {
@@ -447,6 +437,7 @@
             }
         }
     </script>
+    
     <script>
     (function() {
         const isAreaAdmin = window.location.pathname.includes('admin_');
@@ -466,7 +457,7 @@
                         <button onclick="localStorage.clear(); sessionStorage.clear(); window.location.href='${URL_LOGIN}'" style="width: 100%; background: #EC1A7C; color: #FFF; border: none; padding: 15px; border-radius: 10px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(236,26,124,0.3);">Entrar Novamente</button>
                     </div>
                 </div>
-            <style>@keyframes dropInModal { from { transform: translateY(-20px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }</style>
+                <style>@keyframes dropInModal { from { transform: translateY(-20px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }</style>
             `; 
             document.body.insertAdjacentHTML('beforeend', html);
             document.body.style.overflow = 'hidden'; 
@@ -478,7 +469,7 @@
             if (!tokenAtivo && !window.location.pathname.includes('login.html')) {
                 window.location.href = URL_LOGIN;
                 return;
-            }
+}
 
             if (tokenAtivo) {
                 try {
@@ -498,13 +489,12 @@
                 }
             }
         }
-        // Gatilhos de Detonação
+        
         window.addEventListener('load', auditarSessao);
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') auditarSessao();
         });
 
-        // Interceptador Global do Frontend para Erros 401
         const fetchOriginal = window.fetch;
         window.fetch = async function() {
             const resposta = await fetchOriginal.apply(this, arguments);
