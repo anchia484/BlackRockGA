@@ -74,20 +74,21 @@
         .empty-plan p { font-size: 11px; color: var(--texto-med); margin-bottom: 10px; }
         .btn-comecar { background: var(--gradiente-cta); border: none; color: #FFF; font-size: 12px; font-weight: 900; padding: 12px 24px; border-radius: 8px; text-transform: uppercase; cursor: pointer; text-decoration: none; }
 
-        /* NOVO BANNER MERCADO PREMIUM */
+        /* 🚀 O NOVO BANNER VIP DO MERCADO PREMIUM 🚀 */
         .banner-mercado { 
             display: none; background: linear-gradient(135deg, #1A1525, #0F1219); 
-            border: 1px solid var(--ouro); border-radius: 16px; padding: 20px; 
-            text-align: center; margin-top: 5px; margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); 
+            border: 2px solid var(--ouro); border-radius: 16px; padding: 25px 20px; 
+            text-align: center; margin-top: 5px; margin-bottom: 25px;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.2); 
             animation: pulseGlow 2s infinite; position: relative; overflow: hidden;
+            cursor: pointer; /* Caixa toda clicável */
         }
-        .banner-mercado::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--ouro), var(--magenta)); }
-        @keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(245,158,11,0.1); } 50% { box-shadow: 0 0 25px rgba(245,158,11,0.3); } 100% { box-shadow: 0 0 15px rgba(245,158,11,0.1); } }
-        .bm-title { color: var(--ouro); font-size: 15px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .bm-desc { color: var(--texto-med); font-size: 11px; margin-bottom: 15px; }
-        .btn-acessar-mercado { background: var(--magenta); color: #FFF; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 900; font-size: 12px; text-transform: uppercase; cursor: pointer; width: 100%; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(236,26,124,0.3); transition: 0.2s;}
-        .btn-acessar-mercado:active { transform: scale(0.98); }
+        .banner-mercado::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--ouro), var(--magenta), var(--cyan-neon)); }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(245,158,11,0.1); } 50% { box-shadow: 0 0 40px rgba(245,158,11,0.3); transform: scale(1.01); } 100% { box-shadow: 0 0 15px rgba(245,158,11,0.1); } }
+        .bm-title { color: var(--ouro); font-size: 18px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .bm-desc { color: var(--texto-med); font-size: 12px; margin-bottom: 15px; line-height: 1.5;}
+        .bm-timer { font-size: 26px; font-weight: 900; color: #FFF; margin-bottom: 15px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.3); font-variant-numeric: tabular-nums; }
+        .btn-acessar-mercado { background: linear-gradient(135deg, var(--ouro), #D97706); color: #000; border: none; padding: 18px 20px; border-radius: 12px; font-weight: 900; font-size: 14px; text-transform: uppercase; cursor: pointer; width: 100%; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(245,158,11,0.3); pointer-events: none;}
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--bg-card); border: 1px solid var(--borda-nitida); width: 100%; max-width: 400px; border-radius: 16px; padding: 25px; text-align: center; }
@@ -210,13 +211,14 @@
             </div>
         </div>
 
-        <div class="banner-mercado" id="banner-mercado">
+        <div class="banner-mercado" id="banner-mercado" onclick="window.location.href='mercado_premium.html'">
             <div class="bm-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> 
-                OPERAÇÕES ESTRATÉGICAS DISPONÍVEIS
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> 
+                OPERAÇÕES ESTRATÉGICAS
             </div>
-            <div class="bm-desc">O Mercado Temporário de Alto Rendimento acabou de abrir. Vagas extremamente limitadas.</div>
-            <button class="btn-acessar-mercado" onclick="window.location.href='mercado_premium.html'">ACESSAR O COFRE 👉</button>
+            <div class="bm-desc">Oportunidade Temporária de Alto Rendimento com Vagas Limitadas.<br><strong>O Mercado fecha em:</strong></div>
+            <div class="bm-timer" id="bm-timer">00d 00h 00m 00s</div>
+            <button class="btn-acessar-mercado">ACESSAR O COFRE AGORA 👉</button>
         </div>
 
     </div>
@@ -243,7 +245,7 @@
         let saldoOculto = false;
 
         let db = {
-            isFirstLogin: false, nome: "Usuário", statusConta: "ativo", notifs: 0, isMercadoAberto: false,
+            isFirstLogin: false, nome: "Usuário", statusConta: "ativo", notifs: 0, isMercadoAberto: false, dataFechamentoMercado: null,
             saldos: { total: 0, principal: 0, bonus: 0, bloqueado: 0 },
             ganhos: { hoje: 0, semana: 0, mes: 0, total: 0 },
             plano: { ativo: false, nome: "Nenhum", estrato: "Nenhum", investido: 0, diario: 0, validade: 0, diasRestantes: 0 }
@@ -326,6 +328,7 @@ if(pNome.includes('1') || pNome.includes('2') || pNome.includes('3')) db.plano.e
                     
                     // 🚀 O SINAL VERDE DA DIRETORIA
                     db.isMercadoAberto = data.isMercadoAberto || false;
+                    db.dataFechamentoMercado = data.dataFechamentoMercado || null;
 
                 } else {
                     localStorage.removeItem('br_token');
@@ -375,12 +378,12 @@ if(pNome.includes('1') || pNome.includes('2') || pNome.includes('3')) db.plano.e
             if(db.plano.ativo) {
                 document.getElementById('card-sem-plano').style.display = 'none';
                 document.getElementById('card-plano-ativo').style.display = 'block';
-                
-                document.getElementById('p-nome').innerText = db.plano.nome;
+               document.getElementById('p-nome').innerText = db.plano.nome;
                 document.getElementById('p-estrato').innerText = db.plano.estrato;
                 document.getElementById('p-investido').innerText = `${formatar(db.plano.investido)} MZN`;
                 document.getElementById('p-diario').innerText = `${formatar(db.plano.diario)} MZN`;
-if (db.plano.diasRestantes <= 0) {
+                
+                if (db.plano.diasRestantes <= 0) {
                     document.getElementById('p-tempo').innerText = `CONTRATO EXPIRADO`;
                     document.getElementById('p-tempo').style.color = "var(--alerta)";
                 } else {
@@ -399,10 +402,11 @@ if (db.plano.diasRestantes <= 0) {
                 document.getElementById('card-sem-plano').style.display = 'flex';
             }
 
-            // 🚀 EXIBIÇÃO DO BANNER DO MERCADO PREMIUM
+            // 🚀 EXIBIÇÃO DO BANNER DO MERCADO PREMIUM COM TIMER
             const banner = document.getElementById('banner-mercado');
-            if(db.isMercadoAberto) {
+            if(db.isMercadoAberto && db.dataFechamentoMercado) {
                 banner.style.display = 'block';
+                iniciarTimerDashboard(db.dataFechamentoMercado);
             } else {
                 banner.style.display = 'none';
             }
@@ -448,10 +452,35 @@ if (db.plano.diasRestantes <= 0) {
                 t.innerText = "Investidor VIP GOLD";
                 p.innerText = "Mestre! Você atingiu o nível máximo. Aproveite os maiores lucros da plataforma, prioridade absoluta no suporte e saques instantâneos. Mantenha os seus nodes ativos para continuar no topo.";
             }
-            
+
             document.getElementById('modalNivel').style.display = 'flex';
         }
-function fecharModalNivel() { document.getElementById('modalNivel').style.display = 'none'; }
+
+        function fecharModalNivel() { document.getElementById('modalNivel').style.display = 'none'; }
+
+        let timerDashInterval = null;
+        function iniciarTimerDashboard(dataFechoStr) {
+            if(timerDashInterval) clearInterval(timerDashInterval);
+            const dataFecho = new Date(dataFechoStr).getTime();
+
+            timerDashInterval = setInterval(() => {
+                const agora = new Date().getTime();
+                const diff = dataFecho - agora;
+
+                if (diff > 0) {
+                    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    document.getElementById('bm-timer').innerText = 
+                        `${String(d).padStart(2, '0')}d ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
+                } else {
+                    document.getElementById('bm-timer').innerText = "ENCERRADO";
+                    clearInterval(timerDashInterval);
+                }
+            }, 1000);
+        }
     </script>
 
     <script>
@@ -496,7 +525,7 @@ function fecharModalNivel() { document.getElementById('modalNivel').style.displa
                     if (tempoAgora >= tempoMorte) {
                         exibirModalExpiracao();
                     } else {
-                        const tempoRestante = tempoMorte - tempoAgora;
+                    const tempoRestante = tempoMorte - tempoAgora;
                         clearTimeout(temporizadorSessao);
                         temporizadorSessao = setTimeout(exibirModalExpiracao, tempoRestante);
                     }
