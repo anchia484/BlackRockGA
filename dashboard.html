@@ -5,20 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>BlackRock - Terminal Cockpit</title>
     <style>
-        /* ==================== CYBER-SLEEK DE LUXO ==================== */
         :root {
             --bg-canvas: #0A0C12; --bg-card: #141721; --navbar-bg: #0E1117;
             --borda-nitida: #1A202C; --texto-high: #FFFFFF; --texto-med: #94A3B8;
             --magenta: #EC1A7C; --violeta: #4E3FEA; --gradiente-cta: linear-gradient(135deg, #EC1A7C, #4E3FEA);
             --verde-menta: #38E090; --cyan-neon: #00FFFF; --alerta: #FF4B4B; --pendente: #F6E05E;
+            --ouro: #F59E0B; /* Adicionado Ouro Premium */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent;}
-        
-        /* 🚀 CORREÇÃO MOBILE: Uso de 100dvh para evitar quebra com a barra do navegador */
         body { background-color: var(--bg-canvas); color: var(--texto-high); height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* HEADER FIXO AVANÇADO */
         .header-fixed { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(10, 12, 18, 0.95); backdrop-filter: blur(10px); padding: calc(15px + env(safe-area-inset-top)) 20px 15px; border-bottom: 1px solid var(--borda-nitida); z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
         .h-left { display: flex; align-items: center; gap: 12px; }
         .h-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--borda-nitida); display: flex; justify-content: center; align-items: center; overflow: hidden; font-weight: 900; color: var(--cyan-neon); cursor: pointer; }
@@ -31,11 +28,9 @@
         .btn-notif { background: none; border: none; color: var(--texto-high); cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; padding: 5px; }
         .badge-notif { position: absolute; top: 0; right: 2px; background: var(--alerta); color: #FFF; font-size: 8px; font-weight: 900; width: 14px; height: 14px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid var(--bg-canvas); }
 
-        /* ÁREA DE SCROLL */
         .main-content { flex: 1; overflow-y: auto; padding: 100px 20px calc(100px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 15px; animation: fadeIn 0.4s ease; width: 100%; max-width: 600px; margin: 0 auto;}
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CARD DE SALDO MASTER E GRID GANHOS */
         .saldo-master { background: linear-gradient(145deg, #1A1525, var(--bg-card)); border: 1px solid #3d1c54; border-radius: 20px; padding: 25px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
         .sm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .sm-label { font-size: 11px; color: var(--texto-med); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
@@ -79,17 +74,30 @@
         .empty-plan p { font-size: 11px; color: var(--texto-med); margin-bottom: 10px; }
         .btn-comecar { background: var(--gradiente-cta); border: none; color: #FFF; font-size: 12px; font-weight: 900; padding: 12px 24px; border-radius: 8px; text-transform: uppercase; cursor: pointer; text-decoration: none; }
 
+        /* NOVO BANNER MERCADO PREMIUM */
+        .banner-mercado { 
+            display: none; background: linear-gradient(135deg, #1A1525, #0F1219); 
+            border: 1px solid var(--ouro); border-radius: 16px; padding: 20px; 
+            text-align: center; margin-top: 5px; margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); 
+            animation: pulseGlow 2s infinite; position: relative; overflow: hidden;
+        }
+        .banner-mercado::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--ouro), var(--magenta)); }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(245,158,11,0.1); } 50% { box-shadow: 0 0 25px rgba(245,158,11,0.3); } 100% { box-shadow: 0 0 15px rgba(245,158,11,0.1); } }
+        .bm-title { color: var(--ouro); font-size: 15px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .bm-desc { color: var(--texto-med); font-size: 11px; margin-bottom: 15px; }
+        .btn-acessar-mercado { background: var(--magenta); color: #FFF; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 900; font-size: 12px; text-transform: uppercase; cursor: pointer; width: 100%; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(236,26,124,0.3); transition: 0.2s;}
+        .btn-acessar-mercado:active { transform: scale(0.98); }
+
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--bg-card); border: 1px solid var(--borda-nitida); width: 100%; max-width: 400px; border-radius: 16px; padding: 25px; text-align: center; }
         .modal-content h3 { color: var(--cyan-neon); font-size: 18px; margin-bottom: 10px; font-weight: 900; text-transform: uppercase;}
         .modal-content p { color: var(--texto-med); font-size: 12px; line-height: 1.6; margin-bottom: 20px; }
         .btn-fechar { background: transparent; border: 1px solid var(--borda-nitida); color: #FFF; padding: 10px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; }
 
-        /* NAVBAR INFERIOR */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--navbar-bg); border-top: 1px solid var(--borda-nitida); display: flex; justify-content: space-around; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 1000; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--texto-med); text-decoration: none; font-size: 10px; font-weight: 700; text-transform: uppercase; width: 60px;}
         .nav-icon { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: 0.3s; }
-        /* 🚀 CORREÇÃO: "Início" agora é o Ativo por padrão no Dashboard */
         .nav-item.active { color: var(--cyan-neon); }
         .nav-item.active .nav-icon { stroke: var(--cyan-neon); filter: drop-shadow(0 0 5px rgba(0,255,255,0.4)); }
     </style>
@@ -106,7 +114,6 @@
                 </span>
             </div>
         </div>
-        
          <div class="h-right">
             <a href="notificacoes.html" class="btn-notif">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
@@ -202,6 +209,16 @@
                 <a href="planos.html" class="btn-comecar">Começar Agora 👉</a>
             </div>
         </div>
+
+        <div class="banner-mercado" id="banner-mercado">
+            <div class="bm-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> 
+                OPERAÇÕES ESTRATÉGICAS DISPONÍVEIS
+            </div>
+            <div class="bm-desc">O Mercado Temporário de Alto Rendimento acabou de abrir. Vagas extremamente limitadas.</div>
+            <button class="btn-acessar-mercado" onclick="window.location.href='mercado_premium.html'">ACESSAR O COFRE 👉</button>
+        </div>
+
     </div>
 
     <div class="modal-overlay" id="modalNivel">
@@ -226,7 +243,7 @@
         let saldoOculto = false;
 
         let db = {
-            isFirstLogin: false, nome: "Usuário", statusConta: "ativo", notifs: 0,
+            isFirstLogin: false, nome: "Usuário", statusConta: "ativo", notifs: 0, isMercadoAberto: false,
             saldos: { total: 0, principal: 0, bonus: 0, bloqueado: 0 },
             ganhos: { hoje: 0, semana: 0, mes: 0, total: 0 },
             plano: { ativo: false, nome: "Nenhum", estrato: "Nenhum", investido: 0, diario: 0, validade: 0, diasRestantes: 0 }
@@ -255,11 +272,10 @@
             }
         }
 
-function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+        function formatar(valor) { return (Number(valor) || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
-async function buscarDadosDaAPI(token) {
+        async function buscarDadosDaAPI(token) {
             try {
-                // 🚀 GARANTINDO QUE A ROTA SEJA "/api/usuario/dashboard"
                 const res = await fetch(`${URL_BASE}/api/usuario/dashboard`, { headers: { 'Authorization': `Bearer ${token}` } });
                 
                 if(res.ok) {
@@ -291,8 +307,7 @@ async function buscarDadosDaAPI(token) {
                             } else {
                                 db.plano.diasRestantes = db.plano.validade;
                             }
-                            
-                            if(pNome.includes('1') || pNome.includes('2') || pNome.includes('3')) db.plano.estrato = "STANDARD";
+if(pNome.includes('1') || pNome.includes('2') || pNome.includes('3')) db.plano.estrato = "STANDARD";
                             else if(pNome.includes('4') || pNome.includes('5') || pNome.includes('6')) db.plano.estrato = "PREMIUM PLUS";
                             else if(pNome.includes('7') || pNome.includes('8') || pNome.includes('VIP')) db.plano.estrato = "VIP GOLD";
                             else db.plano.estrato = "INVESTIDOR";
@@ -304,12 +319,14 @@ async function buscarDadosDaAPI(token) {
                         db.ganhos.semana = data.ganhos.semana || 0;
                         db.ganhos.mes = data.ganhos.mes || 0;
                         db.ganhos.total = data.ganhos.total || 0;
-                        
-                        // 👇 ESTA É A LINHA QUE FALTAVA NO SEU CÓDIGO 👇
                         db.saldos.bonus = data.ganhos.bonus || 0;
                     }
 
                     db.notifs = data.unreadNotifications || 0;
+                    
+                    // 🚀 O SINAL VERDE DA DIRETORIA
+                    db.isMercadoAberto = data.isMercadoAberto || false;
+
                 } else {
                     localStorage.removeItem('br_token');
                     window.location.href = 'login.html';
@@ -322,14 +339,15 @@ async function buscarDadosDaAPI(token) {
                 renderizarDashboard(); 
             }
         }
+
         function renderizarDashboard() {
             document.getElementById('txt-welcome').innerText = `Olá, ${db.nome.split(' ')[0]}`;
             
-            // Renderiza inicial no header apenas se não houver foto
             const avatarContainer = document.getElementById('topo-avatar');
             if(avatarContainer.innerHTML === "U") {
                 avatarContainer.innerText = db.nome.charAt(0).toUpperCase();
             }
+
             const badgeNotif = document.getElementById('notif-count');
             if(db.notifs > 0) { badgeNotif.innerText = db.notifs; badgeNotif.style.display = 'flex'; } 
             else { badgeNotif.style.display = 'none'; }
@@ -362,8 +380,7 @@ async function buscarDadosDaAPI(token) {
                 document.getElementById('p-estrato').innerText = db.plano.estrato;
                 document.getElementById('p-investido').innerText = `${formatar(db.plano.investido)} MZN`;
                 document.getElementById('p-diario').innerText = `${formatar(db.plano.diario)} MZN`;
-                
-                if (db.plano.diasRestantes <= 0) {
+if (db.plano.diasRestantes <= 0) {
                     document.getElementById('p-tempo').innerText = `CONTRATO EXPIRADO`;
                     document.getElementById('p-tempo').style.color = "var(--alerta)";
                 } else {
@@ -380,6 +397,14 @@ async function buscarDadosDaAPI(token) {
             } else {
                 document.getElementById('card-plano-ativo').style.display = 'none';
                 document.getElementById('card-sem-plano').style.display = 'flex';
+            }
+
+            // 🚀 EXIBIÇÃO DO BANNER DO MERCADO PREMIUM
+            const banner = document.getElementById('banner-mercado');
+            if(db.isMercadoAberto) {
+                banner.style.display = 'block';
+            } else {
+                banner.style.display = 'none';
             }
         }
 
@@ -403,6 +428,7 @@ async function buscarDadosDaAPI(token) {
                 iEye.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             }
         }
+
         function toggleSaldo() { saldoOculto = !saldoOculto; atualizarValoresVisiveis(); }
 
         function abrirModalNivel() {
@@ -425,8 +451,7 @@ async function buscarDadosDaAPI(token) {
             
             document.getElementById('modalNivel').style.display = 'flex';
         }
-        
-        function fecharModalNivel() { document.getElementById('modalNivel').style.display = 'none'; }
+function fecharModalNivel() { document.getElementById('modalNivel').style.display = 'none'; }
     </script>
 
     <script>
@@ -481,13 +506,11 @@ async function buscarDadosDaAPI(token) {
             }
         }
 
-        // Gatilhos de Detonação
         window.addEventListener('load', auditarSessao);
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') auditarSessao();
         });
 
-        // Interceptador Global do Frontend para Erros 401
         const fetchOriginal = window.fetch;
         window.fetch = async function() {
             const resposta = await fetchOriginal.apply(this, arguments);
